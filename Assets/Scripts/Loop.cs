@@ -10,8 +10,10 @@ public class Loop : MonoBehaviour
     private float _finalVelocity = 10f;
     private readonly float accelerationRate = 0.2f;
     private readonly float decelerationRate = 50.0f;
-
     private Rigidbody rb;
+    private float initialZ;
+
+    private Vector3 worldPosition;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +34,9 @@ public class Loop : MonoBehaviour
             _currentVelocity = 0f;
         }
         rb.AddForce(transform.up * (_currentVelocity * accelerationRate));
-
+        //Vector3 mousePos = Input.mousePosition;
+        //mousePos.z = Camera.main.nearClipPlane;
+        //worldPosition = Camera.main.ScreenToWorldPoint(mousePos);
+        //transform.position = new Vector3(worldPosition.x, transform.position.y, transform.position.z);
     }
 }

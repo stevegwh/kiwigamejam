@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraManager : MonoBehaviour
 {
     public Rigidbody Loop;
+    public GameObject World;
 
     private float initialY;
 
@@ -22,9 +23,9 @@ public class CameraManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     { 
-        transform.position = new Vector3(transform.position.x, initialY + Loop.transform.position.y, transform.position.z);
-
+        //transform.position = new Vector3(transform.position.x, initialY + Loop.transform.position.y, transform.position.z);
+        
         rotation -= 0.1f;
-        transform.eulerAngles = new Vector3(0, 0, rotation);
+        //transform.eulerAngles = new Vector3(0, 0, rotation);
     }
 }
