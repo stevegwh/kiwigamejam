@@ -4,36 +4,49 @@ using UnityEngine;
 
 public class Loop : MonoBehaviour
 {
+    private float _initialVelocity = 0f;
+    private float _finalVelocity = 10f;
     [SerializeField]
     private float _currentVelocity = 0f;
-    private float _initialVelocity = 2f;
-    private float _finalVelocity = 10f;
-    private readonly float accelerationRate = 0.2f;
-    private readonly float decelerationRate = 50.0f;
+    private readonly float accelerationRate = 0.1f;
     private Rigidbody rb;
-    private float initialZ;
+    [SerializeField]
+    private float rotation;
 
     private Vector3 worldPosition;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        rotation = transform.parent.eulerAngles.x;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //ensure the velocity never goes out of the initial/final boundaries
         if (Input.GetKey(KeyCode.Space))
         {
-            _currentVelocity += accelerationRate * Time.deltaTime;
-            _currentVelocity = Mathf.Clamp(_currentVelocity, _initialVelocity, _finalVelocity);
+            _currentVelocity += accelerationRate;
         }
         else
         {
-            _currentVelocity = 0f;
+            _currentVelocity -= accelerationRate;
         }
-        rb.AddForce(transform.up * (_currentVelocity * accelerationRate));
+        transform.parent.position += transform.parent.forward * Time.deltaTime * _currentVelocity;
+        _currentVelocity = Mathf.Clamp(_currentVelocity, _finalVelocity * -1, _finalVelocity);
+
+        if (Input.GetKey(KeyCode.Alpha9))
+        {
+            Debug.Log("Number pressed!");
+            rotation -= 0.1f;
+        } else if (Input.GetKey(KeyCode.Alpha0))
+        {
+            rotation += 0.1f;
+        }
+        transform.parent.eulerAngles = new Vector3(rotation, 0, 0);
+        //transform.parent.position -= transform.parent.forward * Time.deltaTime * gravity;
+        //transform.position = new Vector3(transform.position.x, (transform.forward * _currentVelocity).y, transform.position.z);
+        //rb.AddForce(transform.up * (_currentVelocity * accelerationRate));
         //Vector3 mousePos = Input.mousePosition;
         //mousePos.z = Camera.main.nearClipPlane;
         //worldPosition = Camera.main.ScreenToWorldPoint(mousePos);
